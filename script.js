@@ -14,21 +14,20 @@
   ];
 
   // ==============================================
-  // NEW PROBABILITY SYSTEM (As requested)
-  // 10 Taka: 70% (Highest)
-  // 20 Taka: 20% (Medium)
-  // 50 Taka: 9% (Low)
-  // T-Shirt: 1% (Hidden Jackpot)
+  // UPDATED PROBABILITY SYSTEM (As requested)
+  // 10 Taka: 90% (Highest - Highly Recommended)
+  // 20 Taka: 7% (Medium)
+  // 50 Taka: 2% (Low)
+  // T-Shirt: 1% (Hidden Jackpot - separate check)
   // ==============================================
   function getWeightedBasePrize() {
     const rand = Math.random() * 100;
     
-    if (rand < 70) {  // 70% chance for 10 Taka
+    if (rand < 90) {  // 90% chance for 10 Taka
       return { prizeKey: "১০ টাকা", segmentIdx: 0, value: 10, isJackpot: false };
-    } else if (rand < 90) {  // 20% chance for 20 Taka
+    } else if (rand < 97) {  // 7% chance for 20 Taka
       return { prizeKey: "২০ টাকা", segmentIdx: 1, value: 20, isJackpot: false };
-    } else {  // 10% chance (9% + 1% will be jackpot, but we handle separately)
-      // 9% for 50 Taka (will be overridden by jackpot if jackpot hits)
+    } else {  // 3% chance (2% for 50 Taka + 1% will be jackpot override)
       return { prizeKey: "৫০ টাকা", segmentIdx: 2, value: 50, isJackpot: false };
     }
   }
@@ -237,8 +236,14 @@
       startConfetti(6);
       triggerGoldenGlow();
     } else {
-      titleEl.innerHTML = "🎉 অভিনন্দন! 🎉";
-      msgEl.innerHTML = `আপনি জিতেছেন ${prize} ইদি! ঈদ মোবারক ✨`;
+      // Special highlight for 10 Taka win
+      if (prize === "১০ টাকা") {
+        titleEl.innerHTML = "🎉 অভিনন্দন! 🎉";
+        msgEl.innerHTML = `আপনি জিতেছেন ${prize} ইদি! 🎊 ঈদ মোবারক ✨<br><span style="font-size: 1rem;">ভাগ্যকে ধন্যবাদ! 🍀</span>`;
+      } else {
+        titleEl.innerHTML = "🎉 অভিনন্দন! 🎉";
+        msgEl.innerHTML = `আপনি জিতেছেন ${prize} ইদি! ঈদ মোবারক ✨`;
+      }
       playWinSound();
       startConfetti(3);
     }
